@@ -607,6 +607,7 @@ void crearStringDeArchivoConBloques(peticion_obtener *obtener){
 
 	for(i=0;i<cantidadBloques;i++){
 		pathBloqueCompleto = bloque_path(metadataArchivo.bloques[i]);
+		puts(pathBloqueCompleto);
 		if(metadataArchivo.tamanio >=config_MetaData.tamanio_bloques){
 			sizeArchivoBloque = config_MetaData.tamanio_bloques;
 		}
@@ -635,7 +636,7 @@ void crearStringDeArchivoConBloques(peticion_obtener *obtener){
 			strcpy(contenidoArchivo,src);
 		}
 		else
-		string_append(&contenidoArchivo,src);
+			string_append(&contenidoArchivo,src);
 		free(pathBloqueCompleto);
 		munmap(src,sizeArchivoBloque);
 		close(f);
@@ -792,6 +793,7 @@ void guardarEnArchivo(){
 		    	sizeGuardar=sizeDelStringArchivoAGuardar;
 		}
 		else{
+
 		    	sizeDelStringArchivoAGuardar-=config_MetaData.tamanio_bloques;
 		    	sizeGuardar=config_MetaData.tamanio_bloques;
 		}
@@ -971,19 +973,23 @@ void crearDirectoriofileSystem(char *directorio){
 	if (mkdir(direccionDirectorio, S_IRWXU) != 0) {
 	    if (errno != EEXIST)
 	   	        	printf( "No se creo el directorio por q ya existe%s\n",direccionDirectorio);
+
 	}
-	if(!strncmp(directorio,"/Bloques",8)){
-		int cantidad = config_MetaData.cantidad_bloques;
-		char *bloquechar;
-		char *bloquePath;
-		for(int i=1;i<cantidad+1;i++){
-			bloquechar=string_itoa(i);
-			bloquePath= bloque_path(bloquechar);
-			puts(bloquePath);
-			fclose(fopen(bloquePath, "w"));
-			free(bloquePath);
+	else{
+		if(!strncmp(directorio,"/Bloques",8)){
+			    		int cantidad = config_MetaData.cantidad_bloques;
+			    		char *bloquechar;
+			    		char *bloquePath;
+			    		for(int i=1;i<cantidad+1;i++){
+			    			bloquechar=string_itoa(i);
+			    			bloquePath= bloque_path(bloquechar);
+			    			puts(bloquePath);
+			    			fclose(fopen(bloquePath, "w"));
+			    			free(bloquePath);
+			    		}
 		}
 	}
+
 	free(direccionDirectorio);
 }
 
