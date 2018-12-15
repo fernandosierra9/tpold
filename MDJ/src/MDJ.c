@@ -188,10 +188,10 @@ void determinarOperacion(int operacion,int fd) {
 	{
 		log_info(log_MDJ,"Recibido Peticion de guardado de DAM:");
 		peticion_guardar* guardado = recibirYDeserializar(fd,operacion);
-		log_info(log_MDJ,"Peticion de guardado de DAM para:%s",guardado->path);
+		log_info(log_MDJ,"Peticion de guardado de DAM para:",guardado->path);
 		guardarDatos(guardado);
 		free(guardado->buffer);
-		free(guardado->path);
+		//free(guardado->path);
 		free(guardado);
 		usleep(config_MDJ.time_delay*1000);
 
@@ -732,7 +732,7 @@ int borrar_archivo(char *path_archivo){
     	string_iterate_lines(metadataArchivo.bloques, (void*) free);
         if(validarArchivoConfig(complete_path)==0){
                 remove(complete_path);
-                log_info(log_MDJ,"borrado archivo en:",complete_path);
+                log_info(log_MDJ,"borrado archivo en %s:",complete_path);
                 free(complete_path);
                 return 0;
         }
